@@ -15,7 +15,7 @@ jobs:
     steps:
       - setup_remote_docker
       - run: docker info
-      - run: docker build . -t myapp
+      - run: docker build . -t myapp -f /myapp/Dockerfile .
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASS registry.heroku.com
       - run: docker tag myapp registry.heroku.com/myapp/peaceful-mountain-50162
       - run: docker push registry.heroku.com/myapp/peaceful-mountain-50162
