@@ -13,12 +13,15 @@ jobs:
           POSTGRES_DB: myapp_test
 
     steps:
+      - checkout
       - setup_remote_docker
-      - run: docker info
-      - run: docker build -t myapp .
-      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS registry.heroku.com
-      - run: docker tag myapp registry.heroku.com/myapp/peaceful-mountain-50162
-      - run: docker push registry.heroku.com/myapp/peaceful-mountain-50162
+      - run: sudo curl https://cli-assets.heroku.com/install.sh | sh
+      - run: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:login
+      - run: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push -a python-django-starter web
+      - run: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release -a python-django-starter web
+      # - run: docker login -u $DOCKER_USER -p $DOCKER_PASS registry.heroku.com
+      # - run: docker tag myapp registry.heroku.com/myapp/peaceful-mountain-50162
+      # - run: docker push registry.heroku.com/myapp/peaceful-mountain-50162
 
 workflows:
   version: 2
@@ -26,4 +29,3 @@ workflows:
     jobs:
       - deployment:
            context: docker-test
-##
