@@ -1,0 +1,30 @@
+version: 2.1
+
+jobs:
+  deployment:
+    docker:
+      - image: circleci/ruby:2.6.5-node-browsers
+        environment:
+          RAILS_ENV: test
+      - image: postgres:11-alpine
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: myapp_test
+
+    steps:
+      - setup_remote_docker
+      - run: docker info
+      - run: 
+          command: docker build -t myapp .
+          working_directory: myapp
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS registry.heroku.com
+      - run: docker tag myapp registry.heroku.com/myapp/peaceful-mountain-50162
+      - run: docker push registry.heroku.com/myapp/peaceful-mountain-50162
+
+workflows:
+  version: 2
+  build_deploy:
+    jobs:
+      - deployment:
+           context: docker-test

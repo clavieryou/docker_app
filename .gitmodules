@@ -1,0 +1,3 @@
+[submodule "myapp"]
+	path = myapp
+	url = git@github.com:clavieryou/myapp.git
