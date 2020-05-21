@@ -2,10 +2,11 @@ FROM ruby:2.6.5-alpine AS Builder
 
 ARG RAILS_ROOT=/home/myapp
 ARG BUILD_PACKAGES="build-base curl-dev git"
-ARG DEV_PACKAGES="postgresql-dev yaml-dev zlib-dev"
+ARG DEV_PACKAGES="postgresql-dev yaml-dev zlib-dev nodejs yarn"
 ARG RUBY_PACKAGES="tzdata"
 
 ENV RAILS_ENV=production
+ENV NODE_ENV=production
 ENV BUNDLE_APP_CONFIG="${RAILS_ROOT}/.bundle"
 
 WORKDIR ${RAILS_ROOT}
@@ -15,7 +16,7 @@ RUN apk update \
     && apk add --update --no-cache ${BUILD_PACKAGES} ${DEV_PACKAGES} \
        ${RUBY_PACKAGES}
 
-ADD Gemfile* ${RAILS_ROOT}/
+ADD Gemfile* package.json yarn.lock ${RAILS_ROOT}/
 RUN bundle config --global frozen 1 \ 
     && bundle install --without development:test:assets -j4 --retry 3 --path=vendor/bundle \
     # Remove unneeded files (cached *.gem, *.o, *.c)
@@ -23,8 +24,11 @@ RUN bundle config --global frozen 1 \
     && find vendor/bundle/ruby/2.6.0/gems/ -name "*.c" -delete \
     && find vendor/bundle/ruby/2.6.0/gems/ -name "*.o" -delete
 
+RUN yarn install --production
 COPY . ${RAILS_ROOT}
 RUN rm -rf node_modules tmp/cache app/assets vendor/assets spec
+RUN bin/rails webpacker:compile
+RUN bin/rails assets:precompile
 
 ############### Build step done ###############
 
