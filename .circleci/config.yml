@@ -18,10 +18,14 @@ jobs:
       - setup_remote_docker
       - run: sudo curl https://cli-assets.heroku.com/install.sh | sh
       - run: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:login
+      - run:
+          name: Set $HEROKU_APP_NAME 
+          command: |
+            echo 'export HEROKU_APP_NAME=docker-ging-app$(if [ "$CIRCLE_BRANCH" != "master" ]; then echo -staging; fi)' >> $BASH_ENV
       - run: 
-          command: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push -a docker-app-staging web
+          command: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push -a $HEROKU_APP_NAME web
           working_directory: myapp
-      - run: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release -a docker-app-staging web
+      - run: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release -a $HEROKU_APP_NAME web
 
 workflows:
   version: 2
