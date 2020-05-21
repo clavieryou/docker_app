@@ -43,6 +43,7 @@ RUN apk update \
     && apk upgrade \
     && apk add --update --no-cache $PACKAGES
 COPY --from=Builder $RAILS_ROOT $RAILS_ROOT
+ENTRYPOINT [ "entrypoint.sh" ]
 EXPOSE 3000
-CMD ["rails", "server", "-b", "0.0.0.0"]
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
 
