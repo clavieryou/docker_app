@@ -13,10 +13,10 @@ WORKDIR ${RAILS_ROOT}
 
 RUN apk update \
     && apk upgrade \
-    && apk add --update --no-cache ${BUILD_PACKAGES} ${DEV_PACKAGES} \
-       ${RUBY_PACKAGES}
+    && apk add --update --no-cache ${BUILD_PACKAGES} ${DEV_PACKAGES} ${RUBY_PACKAGES}
 
-ADD Gemfile* package.json yarn.lock ${RAILS_ROOT}/
+COPY Gemfile* package.json yarn.lock ./
+COPY Gemfile Gemfile.lock $RAILS_ROOT/
 RUN bundle config --global frozen 1 \ 
     && bundle install --without development:test:assets -j4 --retry 3 --path=vendor/bundle \
     # Remove unneeded files (cached *.gem, *.o, *.c)
