@@ -18,9 +18,7 @@ jobs:
       - setup_remote_docker
       - run: sudo curl https://cli-assets.heroku.com/install.sh | sh
       - run: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:login
-      - run: 
-          command: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push --recursive
-          working_directory: ~/myapp
+      - run: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push web --recursive
       - run: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release 
 
 workflows:
