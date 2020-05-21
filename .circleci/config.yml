@@ -28,7 +28,7 @@ workflows:
   build_deploy:
     jobs:
       - deployment:
-          filter:
+          filters:
             branches:
               only:
                 - staging
