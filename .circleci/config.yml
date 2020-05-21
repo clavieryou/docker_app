@@ -13,14 +13,13 @@ jobs:
           POSTGRES_DB: myapp_test
 
     steps:
-      - checkout
+      - checkout :
       - setup_remote_docker
       - run: sudo curl https://cli-assets.heroku.com/install.sh | sh
+      - run: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:login
       - run: 
-          command: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:login
-          working_directory: ~/docker-app/myapp
-      - run: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push -a peaceful-mountain-50162 web
-
+          command: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push -a peaceful-mountain-50162 web
+          working_directory: ~/myapp
       - run: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release -a peaceful-mountain-50162 web
 
 workflows:
