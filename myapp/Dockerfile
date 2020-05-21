@@ -1,6 +1,6 @@
 FROM ruby:2.6.5-alpine AS Builder
 
-ARG RAILS_ROOT=/home/app
+ARG RAILS_ROOT=/home/myapp
 ARG BUILD_PACKAGES="build-base curl-dev git"
 ARG DEV_PACKAGES="postgresql-dev yaml-dev zlib-dev"
 ARG RUBY_PACKAGES="tzdata"
@@ -30,7 +30,7 @@ RUN rm -rf node_modules tmp/cache app/assets vendor/assets spec
 
 FROM ruby:2.6.5-alpine 
 
-ARG RAILS_ROOT=/home/app
+ARG RAILS_ROOT=/home/myapp
 ARG PACKAGES="tzdata postgresql-client nodejs bash"
 
 ENV RAILS_ENV=production
