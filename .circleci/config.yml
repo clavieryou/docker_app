@@ -18,6 +18,7 @@ jobs:
     
     steps:
       - checkout
+      - heroku/install
       - setup_remote_docker
       - run: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:login
       - run:
