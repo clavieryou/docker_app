@@ -26,9 +26,9 @@ jobs:
           command: |
             echo 'export HEROKU_APP_NAME=docker-ging-app$(if [ "$CIRCLE_BRANCH" != "master" ]; then echo -staging; fi)' >> $BASH_ENV
       - run: 
-          command: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push -a $HEROKU_APP_NAME web
+          command: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push -a $HEROKU_APP_NAME
           working_directory: myapp
-      - run: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release -a $HEROKU_APP_NAME web
+      - run: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release -a $HEROKU_APP_NAME
 
 workflows:
   version: 2
