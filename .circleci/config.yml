@@ -28,9 +28,10 @@ workflows:
   build_deploy:
     jobs:
       - deployment:
-          context: docker-app
-          filters:
+           context: docker-test
+           filters:
             branches:
               only:
                 - staging
                 - master        
+        
