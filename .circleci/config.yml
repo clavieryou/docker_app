@@ -2,7 +2,6 @@ version: 2.1
 
 jobs:
   deployment:
-    working_directory: ~/myapp
     docker:
       - image: circleci/ruby:2.6.5-node-browsers
         environment:
