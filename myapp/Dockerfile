@@ -3,7 +3,7 @@ RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
 WORKDIR /home/myapp
 ADD Gemfile /home/myapp/Gemfile
 ADD Gemfile.lock /home/myapp/Gemfile.lock
-RUN bundle install
+RUN bin/bundle install --path=vendor/cache
 ADD . /home/myapp
 
 # Add a script to be executed every time the container starts.
