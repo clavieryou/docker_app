@@ -17,10 +17,9 @@ ADD Gemfile /home/myapp/Gemfile
 ADD Gemfile.lock /home/myapp/Gemfile.lock
 
 ADD entrypoint.sh /home/myapp/entrypoint.sh
-RUN chmod u+x /home/myapp/entrypoint.sh
 # RUN bundle install -j4 --path= vendor/bundle
 RUN bundle config --global frozen 1 \
-    && bundle install --without development:test:assets -j4 --retry 3 --path=vendor/bundle \
+    && bundle install -j4 --retry 3 --path=vendor/bundle \
     # Remove unneeded files (cached *.gem, *.o, *.c)
     && rm -rf vendor/bundle/ruby/2.6.0/cache/*.gem \
     && find vendor/bundle/ruby/2.6.0/gems/ -name "*.c" -delete \
@@ -46,6 +45,7 @@ RUN apk update \
 # Add a script to be executed every time the container starts.
 
 COPY --from=Builder $RAILS_ROOT $RAILS_ROOT
+RUN chmod a+x /home/myapp/entrypoint.sh
 
 # Start the main process.
 CMD /home/myapp/entrypoint.sh
