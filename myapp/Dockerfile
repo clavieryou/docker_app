@@ -15,6 +15,9 @@ RUN apk update \
 
 ADD Gemfile /home/myapp/Gemfile
 ADD Gemfile.lock /home/myapp/Gemfile.lock
+
+ADD entrypoint.sh /home/myapp/entrypoint.sh
+RUN chmod +x /home/myapp/entrypoint.sh
 # RUN bundle install -j4 --path= vendor/bundle
 RUN bundle config --global frozen 1 \
     && bundle install --without development:test:assets -j4 --retry 3 --path=vendor/bundle \
@@ -41,8 +44,7 @@ RUN apk update \
 
 
 # Add a script to be executed every time the container starts.
-ADD entrypoint.sh /home/myapp/entrypoint.sh
-RUN chmod +x /home/myapp/entrypoint.sh
+
 COPY --from=Builder $RAILS_ROOT $RAILS_ROOT
 
 # Start the main process.
