@@ -5,7 +5,7 @@ ARG BUILD_PACKAGES="build-base curl-dev git"
 ARG DEV_PACKAGES="postgresql-dev yaml-dev zlib-dev nodejs yarn bash"
 ARG RUBY_PACKAGES="tzdata"
 
-ENV BUNDLE_APP_CONFIG="$RAILS_ROOT/.bundle"
+# ENV BUNDLE_APP_CONFIG="$RAILS_ROOT/.bundle"
 
 WORKDIR ${RAILS_ROOT}
 
@@ -33,7 +33,7 @@ FROM ruby:2.6.5-alpine
 ARG RAILS_ROOT=/home/myapp
 ARG PACKAGES="tzdata postgresql-client nodejs bash"
 
-ENV BUNDLE_APP_CONFIG="$RAILS_ROOT/.bundle"
+# ENV BUNDLE_APP_CONFIG="$RAILS_ROOT/.bundle"
 
 WORKDIR $RAILS_ROOT
 # install packages
