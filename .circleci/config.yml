@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  heroku: circleci/heroku@1.0.1
+
 jobs:
   deployment:
     docker:
@@ -16,7 +19,7 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - run: sudo curl https://cli-assets.heroku.com/install.sh | sh
+      - heroku/install
       - run: HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:login
       - run:
           name: Set $HEROKU_APP_NAME 
