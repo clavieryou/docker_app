@@ -15,9 +15,8 @@ RUN apk update \
 
 COPY Gemfile /home/myapp/Gemfile
 COPY Gemfile.lock /home/myapp/Gemfile.lock
-
 COPY entrypoint.sh /home/myapp/entrypoint.sh
-# RUN bundle install -j4 --path= vendor/bundle
+
 RUN bundle config --global frozen 1 \
     && bundle install -j4 --retry 3 --path=vendor/bundle \
     # Remove unneeded files (cached *.gem, *.o, *.c)
@@ -36,13 +35,10 @@ ARG PACKAGES="tzdata postgresql-client nodejs bash"
 ENV BUNDLE_APP_CONFIG="$RAILS_ROOT/.bundle"
 
 WORKDIR $RAILS_ROOT
-# install packages
+
 RUN apk update \
     && apk upgrade \
     && apk add --update --no-cache $PACKAGES
-
-
-# Add a script to be executed every time the container starts.
 
 COPY --from=Builder $RAILS_ROOT $RAILS_ROOT
 RUN chmod +x /home/myapp/entrypoint.sh
