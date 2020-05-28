@@ -45,7 +45,7 @@ RUN apk update \
 # Add a script to be executed every time the container starts.
 
 COPY --from=Builder $RAILS_ROOT $RAILS_ROOT
-RUN chmod a+x /home/myapp/entrypoint.sh
+RUN chmod +x /home/myapp/entrypoint.sh
 
 # Start the main process.
 CMD /home/myapp/entrypoint.sh
