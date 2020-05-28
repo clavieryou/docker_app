@@ -7,5 +7,5 @@ cd /home/myapp
 
 echo "Starting Puma server..."
 # Then exec the container's main process (what's set as CMD in the Dockerfile).
-web: bundle exec puma -C config/puma.rb
-release: bundle exec rails db:migrate
+bundle exec puma -C config/puma.rb
+bundle exec rails db:migrate
